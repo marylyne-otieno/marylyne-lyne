@@ -10,7 +10,7 @@ The system uses classes to represent core entities (`Customer`, `Coffee`, and `O
 
 ---
 
-## 📁 Project Structure
+# Project Structure
 
 coffee_shop/
 │
@@ -26,32 +26,12 @@ coffee_shop/
 ├── test_coffee.py
 └── test_order.py
 
-yaml
-Copy
-Edit
+
 
 ---
 
-## 🔧 Setup Instructions
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/your-username/coffee_shop.git
-   cd coffee_shop
-Set up the virtual environment using pipenv:
-
-bash
-Copy
-Edit
-pipenv install
-pipenv shell
-Install dependencies:
-
-bash
-Copy
-Edit
-pipenv install pytest
-🧠 Domain Model Summary
+Domain Model Summary
 Entities:
 Customer
 
@@ -71,7 +51,7 @@ Attributes: customer, coffee, price
 
 Relationships: Belongs to one Customer and one Coffee
 
-✅ Features
+Features
 Establishes many-to-many relationships between Customer and Coffee through Order.
 
 Includes validation for:
@@ -82,63 +62,7 @@ Coffee names (string, minimum 3 chars)
 
 Order price (float between 1.0 and 10.0)
 
-Calculates:
 
-Total number of orders for a coffee
-
-Average price per coffee
-
-The top customer for a given coffee
-
-Includes unit tests using pytest
-
-Designed following clean code and PEP 8 guidelines
-
-🧪 Running Tests
-To run the test suite:
-
-bash
-Copy
-Edit
-pytest
-All core functionalities and edge cases are covered across:
-
-test_customer.py
-
-test_coffee.py
-
-test_order.py
-
-🐞 Debugging
-A debug.py script is provided to interactively test the model:
-
-bash
-Copy
-Edit
-pipenv run python debug.py
-Use this script to manually create customers, coffees, and orders, and observe relationships and method outputs.
-
-❗ Validation & Error Handling
-The application raises descriptive exceptions for:
-
-Invalid name types or lengths
-
-Invalid price ranges
-
-Invalid data types for associations
-
-💡 Key Concepts Demonstrated
-Object-Oriented Design
-
-Class relationships (one-to-many, many-to-many)
-
-Input validation and exception handling
-
-Aggregation and association methods
-
-Unit testing using pytest
-
-Clean and maintainable code structure
 
 
 
