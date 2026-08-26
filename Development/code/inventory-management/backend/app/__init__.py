@@ -1,0 +1,58 @@
+from flask import Flask, jsonify
+from .config import Config
+from .extensions import db, migrate, jwt, cors
+from .routes.auth import auth_bp
+from .routes.category import category_bp
+from .routes.dashboard import dashboard_bp
+from .routes.products import product_bp
+from .routes.stock import stock_bp
+from .routes.supplier import supplier_bp
+from .routes.sales import sales_bp
+
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
+
+    db.init_app(app)
+    migrate.init_app(app, db)
+    jwt.init_app(app)
+    cors.init_app(app)
+
+    # JWT Error Handlers
+
+    @jwt.invalid_token_loader
+    def invalid_token_callback(error):
+        print("INVALID TOKEN:", error)
+        return jsonify({"message": error}), 401
+
+    @jwt.unauthorized_loader
+    def unauthorized_callback(error):
+        print("UNAUTHORIZED:", error)
+        return jsonify({"message": error}), 401
+
+    @jwt.expired_token_loader
+    def expired_token_callback(jwt_header, jwt_payload):
+        print("TOKEN EXPIRED")
+        return jsonify({"message": "Token expired"}), 401
+
+    @jwt.revoked_token_loader
+    def revoked_token_callback(jwt_header, jwt_payload):
+        print("TOKEN REVOKED")
+        return jsonify({"message": "Token has been revoked"}), 401
+
+    @jwt.needs_fresh_token_loader
+    def needs_fresh_token_callback(jwt_header, jwt_payload):
+        print("FRESH TOKEN REQUIRED")
+        return jsonify({"message": "Fresh token required"}), 401
+
+    from . import models
+
+    app.register_blueprint(auth_bp, url_prefix="/api/auth")
+    app.register_blueprint(category_bp, url_prefix="/api/category")
+    app.register_blueprint(dashboard_bp, url_prefix="/api/dashboard")
+    app.register_blueprint(product_bp, url_prefix="/api/products")
+    app.register_blueprint(stock_bp, url_prefix="/api/stock")
+    app.register_blueprint(supplier_bp, url_prefix="/api/suppliers")
+    app.register_blueprint(sales_bp, url_prefix="/api/sales")
+
+    return app
